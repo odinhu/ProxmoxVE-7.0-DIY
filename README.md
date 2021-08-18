@@ -1,4 +1,4 @@
-# pve7.0换源
+## Proxmox VE 7.0 换源
 
 ### SSH登录到pve后台，然后一条一条的执行命令
 
@@ -42,5 +42,46 @@ echo "deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription" >
 ```
 apt update && apt dist-upgrade -y
 ```
+
+
+
+##  Proxmox VE 7.0 关订阅提示
+
+编辑打开这个文件：/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js
+
+搜索'active'，找到这一段：
+```
+			.data.status.toLowerCase() !== 'active') {
+			Ext.Msg.show({
+			    title: gettext('No valid subscription'),
+			    icon: Ext.Msg.WARNING,
+			    message: Proxmox.Utils.getNoSubKeyHtml(res.data.url),
+			    buttons: Ext.Msg.OK,
+			    callback: function(btn) {
+				if (btn !== 'ok') {
+				    return;
+				}
+				orig_cmd();
+			    },
+			});
+		    } else {
+			orig_cmd();
+		    }
+```
+
+直接删掉其中几行，变成如下：
+
+```
+			.data.status.toLowerCase() !== 'active') {
+				orig_cmd();
+		    } else {
+			orig_cmd();
+		    }
+
+```
+最后保存即可。
+
+
+
 
 
