@@ -153,11 +153,12 @@ $res->{thermalstate} = `sensors`;
           title: gettext('CPU温度'),
           textField: 'thermalstate',
           renderer:function(value){
+              const p0 = value.match(/Package id 0.*?\+([\d\.]+)Â/)[1];
               const c0 = value.match(/Core 0.*?\+([\d\.]+)Â/)[1];
               const c1 = value.match(/Core 1.*?\+([\d\.]+)Â/)[1];
               const b0 = value.match(/temp1.*?\+([\d\.]+)?/)[1];
               const b1 = value.match(/temp2.*?\+([\d\.]+)?/)[1];
-              return `核心1: ${c0} ℃ | 核心2: ${c1} ℃ || 主板: ${b0} ℃ | ${b1} ℃ `
+              return `Package: ${p0} ℃ || 核心1: ${c0} ℃ | 核心2: ${c1} ℃ || 主板: ${b0} ℃ | ${b1} ℃ `
             }
     },
 ```
@@ -179,13 +180,14 @@ $res->{thermalstate} = `sensors`;
           title: gettext('CPU温度'),
           textField: 'thermalstate',
           renderer:function(value){
+              const p0 = value.match(/Package id 0.*?\+([\d\.]+)Â/)[1];
               const c0 = value.match(/Core 0.*?\+([\d\.]+)Â/)[1];
               const c1 = value.match(/Core 1.*?\+([\d\.]+)Â/)[1];
-			  const c2 = value.match(/Core 2.*?\+([\d\.]+)Â/)[1];
-			  const c3 = value.match(/Core 3.*?\+([\d\.]+)Â/)[1];
-			  const b0 = value.match(/temp1.*?\+([\d\.]+)?/)[1];
-			  const b1 = value.match(/temp2.*?\+([\d\.]+)?/)[1];
-              return `核心1: ${c0} ℃ | 核心2: ${c1} ℃ | 核心3: ${c2} ℃ | 核心4: ${c3} ℃ || 主板: ${b0} ℃ | ${b1} ℃ `
+              const c2 = value.match(/Core 2.*?\+([\d\.]+)Â/)[1];
+              const c3 = value.match(/Core 3.*?\+([\d\.]+)Â/)[1];
+              const b0 = value.match(/temp1.*?\+([\d\.]+)?/)[1];
+              const b1 = value.match(/temp2.*?\+([\d\.]+)?/)[1];
+              return `Package: ${p0} ℃ || 核心1: ${c0} ℃ | 核心2: ${c1} ℃ | 核心3: ${c2} ℃ | 核心4: ${c3} ℃ || 主板: ${b0} ℃ | ${b1} ℃ `
             }
     },	  
 ```
@@ -195,7 +197,7 @@ $res->{thermalstate} = `sensors`;
 ![jpg](./pic/5.jpg)
 
 
-增加的2个核心温度就是如红框内这样。所以自己设备几个核心，按需修改。
+增加核心增加参数：const c2/const c3，下面显示参数也要加：核心3: ${c2} ℃ | 核心4: ${c3} ℃ 。所以自己设备几个核心，按需修改。
 
 修改完保存，然后塞回路径。
 
