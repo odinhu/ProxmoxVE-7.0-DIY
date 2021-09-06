@@ -208,5 +208,114 @@ $res->{thermalstate} = `sensors`;
 
 
 
+## 核显直通(intel)
+
+#### 1.编辑GRUB配置文件：/etc/default/grub
+
+```
+sed -i "s/quiet/quiet intel_iommu=on iommu=pt video=efifb:off,vesafb:off/g" /etc/default/grub
+```
+
+改好结果：
+
+![jpg](./pic/7.jpg)
+
+
+然后执行：
+```
+update-grub
+```
+
+#### 2.添加所需的系统模块(驱动)：/etc/modules
+
+```
+echo "vfio" >> /etc/modules
+
+echo "vfio_iommu_type1" >> /etc/modules
+
+echo "vfio_pci" >> /etc/modules
+
+echo "vfio_virqfd" >> /etc/modules
+```
+
+改好结果：
+
+![jpg](./pic/8.jpg)
+
+
+#### 3.添加模块(驱动)黑名单：/etc/modprobe.d/pve-blacklist.conf
+
+```
+echo "blacklist snd_hda_intel" >> /etc/modprobe.d/pve-blacklist.conf
+
+echo "blacklist snd_hda_codec_hdmi" >> /etc/modprobe.d/pve-blacklist.conf
+
+echo "blacklist i915" >> /etc/modprobe.d/pve-blacklist.conf
+```
+
+改好结果：
+
+![jpg](./pic/9.jpg)
+
+
+#### 4.查看GPU的ID：
+```
+lspci -nn | grep VGA
+```
+
+比如我的：
+```
+00:02.0 VGA compatible controller [0300]: Intel Corporation HD Graphics [8086:1606] (rev 08)
+```
+![jpg](./pic/10.jpg)
+
+8086:1606 就是GPU的ID
+00:02.0 是核显的编号
+
+接着执行：(ids=xxxx:xxxx，xxxx:xxxx替换成你获取的ID)
+```
+echo "options vfio-pci ids=8086:1606" >> /etc/modprobe.d/vfio.conf
+```
+
+#### 5.如果要音频直通，就搜索音频设备的ID
+```
+lspci -nn | grep Audio
+```
+比如我的：
+```
+00:03.0 Audio device [0403]: Intel Corporation Broadwell-U Audio Controller [8086:160c] (rev 08)
+00:1b.0 Audio device [0403]: Intel Corporation Wildcat Point-LP High Definition Audio Controller [8086:9ca0] (rev 03)
+```
+![jpg](./pic/11.jpg)
+
+8086:160c/8086:9ca0  就是音频设备ID
+00:03.0/00:1b.0 是音频设备编号
+
+接着执行：(ids=xxxx:xxxx，xxxx:xxxx替换成你获取的GPU/音频设备ID，用英文逗号隔开)
+```
+echo "options vfio-pci ids=8086:1606,8086:160c,8086:9ca0" >> /etc/modprobe.d/vfio.conf
+```
+
+#### 6.更新内核并重启：
+
+执行：
+```
+update-initramfs -u
+
+reboot
+```
+
+#### 7.重启之后添加PCI设备即可：(我只添加核显，音频设备看设备编号按需添加)
+
+用下面的命令验证时候直通：
+```
+find /sys/kernel/iommu_groups/ -type l  #出现很多直通组，每一行看最后的xx:xx.x是设备编号，查看要直通的设备的编号时候在里面
+```
+
+
+![jpg](./pic/12.jpg)
+
+
+![jpg](./pic/13.jpg)
 
 
