@@ -208,6 +208,9 @@ $res->{thermalstate} = `sensors`;
 
 
 
+***
+
+
 ## 核显直通(intel)
 
 #### 1.编辑GRUB配置文件：/etc/default/grub
@@ -305,12 +308,23 @@ update-initramfs -u
 reboot
 ```
 
-#### 7.重启之后添加PCI设备即可：(我只添加核显，音频设备看设备编号按需添加)
+#### 7.验证是否开启iommu：
 
-用下面的命令验证时候直通：
+终端输入：
+
+```
+dmesg | grep 'remapping'
+```
+
+要出现：DMAR-IR: Enabled IRQ remapping in x2apic mode
+
+
+接着用下面的命令：
 ```
 find /sys/kernel/iommu_groups/ -type l  #出现很多直通组，每一行看最后的xx:xx.x是设备编号，查看要直通的设备的编号时候在里面
 ```
+
+#### 8.添加PCI设备即可：(我只添加核显，音频设备看设备编号按需添加)
 
 
 ![jpg](./pic/12.jpg)
