@@ -333,3 +333,58 @@ find /sys/kernel/iommu_groups/ -type l  #出现很多直通组，每一行看最
 ![jpg](./pic/13.jpg)
 
 
+
+***
+
+
+## PVE 直接安装Docker
+
+#### 1.登录PVE的SSH，输入以下命令，安装Docker：
+```
+curl -sSL https://get.docker.com/ | sh
+
+chmod 777 /var/run/docker.sock
+
+systemctl start docker
+
+systemctl enable docker.service
+```
+
+上面的命令一条一条执行完毕后，docker就安装好了。
+
+![jpg](./pic/14.jpg)
+
+
+#### 2.虽然安装好了，但是纯命令操作有点不方便，所以我们安装Portainer并汉化：
+
+先在root目录创建文件夹：
+```
+mkdir  -p /root/portainer/data
+```
+
+然后下载汉化文件：(Github开源汉化)[https://github.com/tbc0309/Portainer-CN2021]
+
+下载完成后解压，并重命名文件夹为public：
+
+![jpg](./pic/15.jpg)
+
+通过WinSCP等软件，放入pve的/root/portainer目录下：
+
+![jpg](./pic/16.jpg)
+
+然后输入以下命令，安装汉化portainer：
+
+```
+docker run -d --name portainer --restart unless-stopped -p 9000:9000 -v /root/portainer/data:/data -v /var/run/docker.sock:/var/run/docker.sock -v /root/portainer/public:/public portainer/portainer
+```
+
+#### 3.等待上述安装命令执行完毕，然后打开PVE的IP地址+9000端口，进入portainer。
+
+ps：例如我的pve的ip是192.168.100.1，那么就是进入http://192.168.100.1:9000。
+
+![jpg](./pic/17.jpg)
+
+
+
+
+
