@@ -362,7 +362,7 @@ systemctl enable docker.service
 mkdir  -p /root/portainer/data
 ```
 
-然后下载汉化文件：(Github开源汉化)[https://github.com/tbc0309/Portainer-CN2021]
+然后下载汉化文件：https://github.com/tbc0309/Portainer-CN2021
 
 下载完成后解压，并重命名文件夹为public：
 
