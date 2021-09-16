@@ -110,7 +110,9 @@ sensors-detect
 
 ![jpg](./pic/1.jpg)
 
-ACPI那里是主板温度，Core0 Core1是核心温度(我只是双核，几个核心就是显示几个) 
+ACPI interface那里是主板温度：temp1和temp2 (主板温度可不管)
+
+ISA adapter那里是CPU温度：Core0和Core1 (几个核心就是显示几个，演示机只有双核，所以只有2个) 
 
 
 #### 4.WinSCP登录到PVE，修改这个文件：/usr/share/perl5/PVE/API2/Nodes.pm 
@@ -169,6 +171,23 @@ $res->{thermalstate} = `sensors`;
 因为我是双核心，所以只写了2个核心的温度参数。
 
 
+如果不要加入主板温度，就是这样：
+```
+	{
+          itemId: 'thermal',
+          colspan: 2,
+          printBar: false,
+          title: gettext('CPU温度'),
+          textField: 'thermalstate',
+          renderer:function(value){
+              const p0 = value.match(/Package id 0.*?\+([\d\.]+)Â/)[1];
+              const c0 = value.match(/Core 0.*?\+([\d\.]+)Â/)[1];
+              const c1 = value.match(/Core 1.*?\+([\d\.]+)Â/)[1];
+              return `Package: ${p0} ℃ || 核心1: ${c0} ℃ | 核心2: ${c1} ℃ `
+            }
+    },
+```
+
 
 如果是四核心的就是这样：
 
@@ -192,14 +211,32 @@ $res->{thermalstate} = `sensors`;
     },	  
 ```
 
-结果如图：
 
-![jpg](./pic/5.jpg)
+如果是四核心不要加入主板温度就是这样：
+
+```         
+	{
+          itemId: 'thermal',
+          colspan: 2,
+          printBar: false,
+          title: gettext('CPU温度'),
+          textField: 'thermalstate',
+          renderer:function(value){
+              const p0 = value.match(/Package id 0.*?\+([\d\.]+)Â/)[1];
+              const c0 = value.match(/Core 0.*?\+([\d\.]+)Â/)[1];
+              const c1 = value.match(/Core 1.*?\+([\d\.]+)Â/)[1];
+              const c2 = value.match(/Core 2.*?\+([\d\.]+)Â/)[1];
+              const c3 = value.match(/Core 3.*?\+([\d\.]+)Â/)[1];
+              return `Package: ${p0} ℃ || 核心1: ${c0} ℃ | 核心2: ${c1} ℃ | 核心3: ${c2} ℃ | 核心4: ${c3} ℃ `
+            }
+    },	  
+```
 
 
-增加核心增加参数：const c2/const c3，下面显示参数也要加：核心3: ${c2} ℃ | 核心4: ${c3} ℃ 。所以自己设备几个核心，按需修改。
 
-修改完保存，然后塞回路径。
+增加核心增加参数：const c2/const c3，下面return那一行显示参数也要加：核心3: ${c2} ℃ | 核心4: ${c3} ℃ 。
+
+所以自己设备几个核心，按需修改。修改完保存，然后塞回路径。
 
 
 #### 改完重启界面：systemctl restart pveproxy ，重进PVE主页，就看到温度显示了。
@@ -291,7 +328,7 @@ lspci -nn | grep Audio
 ```
 ![jpg](./pic/11.jpg)
 
-8086:160c/8086:9ca0  就是音频设备ID
+8086:160c/8086:9ca0  就是音频设备ID (一个是板载，一个是单独的音频孔，所以是2个)
 00:03.0/00:1b.0 是音频设备编号
 
 接着执行：(ids=xxxx:xxxx，xxxx:xxxx替换成你获取的GPU/音频设备ID，用英文逗号隔开)
