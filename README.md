@@ -359,8 +359,9 @@ dmesg | grep 'remapping'
 
 接着用下面的命令：
 ```
-find /sys/kernel/iommu_groups/ -type l  #出现很多直通组，每一行看最后的xx:xx.x是设备编号，查看要直通的设备的编号时候在里面
+find /sys/kernel/iommu_groups/ -type l  
 ```
+出现很多数据，每一行最后的xx:xx.x是设备编号，查看要直通的设备的编号是否在里面。
 
 #### 8.添加PCI设备即可：(我只添加核显，音频设备看设备编号按需添加)
 
