@@ -375,6 +375,72 @@ find /sys/kernel/iommu_groups/ -type l  #出现很多直通组，每一行看最
 ***
 
 
+
+## GVT-G直通(intel)
+
+**此方式适合桌面级别的U，一些小主机不支持！！！**
+
+**这种直通和上面的直通方法，二选一，不能同时选2种！！！**
+
+#### 1.首先在主板BIOS里面启用GTD，GTX等选项，若要多开几个共享GPU，显存开大点。；
+
+#### 2.编辑GRUB配置文件：/etc/default/grub
+
+```
+sed -i "s/quiet/quiet intel_iommu=on i915.enable_gvt=1/g" /etc/default/grub
+```
+
+然后执行：
+```
+update-grub
+```
+
+#### 3.添加所需的系统模块(驱动)：/etc/modules
+
+```
+echo "vfio" >> /etc/modules
+
+echo "vfio_iommu_type1" >> /etc/modules
+
+echo "vfio_pci" >> /etc/modules
+
+echo "vfio_virqfd" >> /etc/modules
+
+echo "kvmgt" >> /etc/modules
+```
+#### 4.更新内核并重启：
+
+执行：
+```
+update-initramfs -u
+
+reboot
+```
+
+#### 5.验证是否开启GVT：
+
+0000:00:02.0  将00:02.0换成自己的GPU的编号 (lspci -nn | grep VGA 查看，最前面的就是)
+
+```
+ls /sys/bus/pci/devices/0000:00:02.0/mdev_supported_types/
+```
+
+出现如下即为成功：
+
+i915-GVTg_V5_1 i915-GVTg_V5_2 i915-GVTg_V5_4 i915-GVTg_V5_8
+
+#### 6.配置直通：
+
+cpu类型设置成HOST，将机器设置成q35，将虚拟机显卡设置成无，添加PCIE设备：勾选高级里的ROM-BAR和pcie，主GPU不勾选，MDev类型选择合适显存。
+
+![jpg](./pic/20.jpg)
+
+
+
+***
+
+
+
 ## 直通硬盘(全盘映射)
 
 上面说了核显直通，接着说硬盘直通。前面步骤完成了，现在很简单了。
