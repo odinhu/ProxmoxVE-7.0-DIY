@@ -110,7 +110,7 @@ sensors-detect
 
 ![jpg](./pic/1.jpg)
 
-ACPI interface那里是主板温度：temp1和temp2 (主板温度可不管)
+ACPI interface那里是主板温度：temp1和temp2 (有些主板不一样，建议不管主板温度)
 
 ISA adapter那里是CPU温度：Core0和Core1 (几个核心就是显示几个，演示机只有双核，所以只有2个) 
 
@@ -329,6 +329,7 @@ lspci -nn | grep Audio
 ![jpg](./pic/11.jpg)
 
 8086:160c/8086:9ca0  就是音频设备ID (一个是板载，一个是单独的音频孔，所以是2个)
+
 00:03.0/00:1b.0 是音频设备编号
 
 接着执行：(ids=xxxx:xxxx，xxxx:xxxx替换成你获取的GPU/音频设备ID，用英文逗号隔开)
@@ -368,6 +369,44 @@ find /sys/kernel/iommu_groups/ -type l  #出现很多直通组，每一行看最
 
 
 ![jpg](./pic/13.jpg)
+
+
+
+***
+
+
+## 直通硬盘(全盘映射)
+
+上面说了核显直通，接着说硬盘直通。前面步骤完成了，现在很简单了。
+
+#### 1.查看读取存储设备序列号：
+```
+ls /dev/disk/by-id
+```
+
+![jpg](./pic/18.jpg)
+
+
+找出自己的硬盘序列号。比如我的就是：
+
+ata-ST1000XXXXXXXXXXXXXXX
+
+#### 2.执行命令：
+
+102改成自己要直通硬盘的的虚拟机ID
+
+```
+qm set 102 -sata1 /dev/disk/by-id/ST1000XXXXXXXXXXXXXXX
+```
+
+返回下面信息就说明成功挂载：
+
+update VM 102: -sata1 /dev/disk/by-id/ata-XXXXXXXXXXXXXXXXXXXXX
+
+
+#### 3.返回PVE查看，已经挂载，重启即可完成。
+
+![jpg](./pic/19.jpg)
 
 
 
