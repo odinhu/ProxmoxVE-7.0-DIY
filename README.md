@@ -461,6 +461,8 @@ ata-ST1000XXXXXXXXXXXXXXX
 
 102改成自己要直通硬盘的的虚拟机ID
 
+sata1要改，比如我要直通的虚拟机只有一块硬盘sata0，那么这里就可以写成sata1。
+
 ```
 qm set 102 -sata1 /dev/disk/by-id/ST1000XXXXXXXXXXXXXXX
 ```
