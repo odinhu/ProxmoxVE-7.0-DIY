@@ -110,9 +110,9 @@ sensors-detect
 
 ![jpg](./pic/1.jpg)
 
-ACPI interface那里是主板温度：temp1和temp2 (有些主板不一样，建议不管主板温度)
+ * ACPI interface那里是主板温度：temp1和temp2 (有些主板不一样，建议不管主板温度)
 
-ISA adapter那里是CPU温度：Core0和Core1 (几个核心就是显示几个，演示机只有双核，所以只有2个) 
+ * ISA adapter那里是CPU温度：Core0和Core1 (几个核心就是显示几个，演示机只有双核，所以只有2个) 
 
 
 #### 4.WinSCP登录到PVE，修改这个文件：/usr/share/perl5/PVE/API2/Nodes.pm 
@@ -145,7 +145,7 @@ $res->{thermalstate} = `sensors`;
 
 ![jpg](./pic/3.jpg)
 
-在这个定义的下方添加一个定义：
+ * 在这个定义的下方添加一个定义：
 
 ```
 	{
@@ -171,7 +171,7 @@ $res->{thermalstate} = `sensors`;
 因为我是双核心，所以只写了2个核心的温度参数。
 
 
-如果不要加入主板温度，就是这样：
+ * 如果不要加入主板温度，就是这样：
 ```
 	{
           itemId: 'thermal',
@@ -189,7 +189,7 @@ $res->{thermalstate} = `sensors`;
 ```
 
 
-如果是四核心的就是这样：
+ * 如果是四核心的就是这样：
 
 ```         
 	{
@@ -212,7 +212,7 @@ $res->{thermalstate} = `sensors`;
 ```
 
 
-如果是四核心不要加入主板温度就是这样：
+ * 如果是四核心不要加入主板温度就是这样：
 
 ```         
 	{
@@ -232,11 +232,7 @@ $res->{thermalstate} = `sensors`;
     },	  
 ```
 
-
-
-增加核心增加参数：const c2/const c3，下面return那一行显示参数也要加：核心3: ${c2} ℃ | 核心4: ${c3} ℃ 。
-
-所以自己设备几个核心，按需修改。修改完保存，然后塞回路径。
+ * 所以自己设备几个核心，按需修改。修改完保存，然后塞回路径。
 
 
 #### 改完重启界面：systemctl restart pveproxy ，重进PVE主页，就看到温度显示了。
@@ -309,8 +305,9 @@ lspci -nn | grep VGA
 ```
 ![jpg](./pic/10.jpg)
 
-8086:1606 就是GPU的ID
-00:02.0 是核显的编号
+ * 8086:1606 就是核显的ID
+
+ * 00:02.0 是核显的编号
 
 接着执行：(ids=xxxx:xxxx，xxxx:xxxx替换成你获取的ID)
 ```
@@ -328,9 +325,9 @@ lspci -nn | grep Audio
 ```
 ![jpg](./pic/11.jpg)
 
-8086:160c/8086:9ca0  就是音频设备ID (一个是板载，一个是单独的音频孔，所以是2个)
+ * 8086:160c/8086:9ca0  就是音频设备ID (一个是板载，一个是单独的音频孔，所以是2个)
 
-00:03.0/00:1b.0 是音频设备编号
+ * 00:03.0/00:1b.0 是音频设备编号
 
 接着执行：(ids=xxxx:xxxx，xxxx:xxxx替换成你获取的GPU/音频设备ID，用英文逗号隔开)
 ```
@@ -372,6 +369,17 @@ find /sys/kernel/iommu_groups/ -type l
 ![jpg](./pic/13.jpg)
 
 
+#### 9.验证核显直通成功没？
+
+ * 在直通后的系统的终端执行：
+```
+ls /dev/dri
+```
+ * 输出如图，出现“renderD128”就成功了：
+
+![jpg](./pic/21.jpg)
+
+
 
 ***
 
@@ -379,7 +387,7 @@ find /sys/kernel/iommu_groups/ -type l
 
 ## GVT-G直通(intel)
 
-**此方式适合桌面级别的U，一些小主机不支持！！！**
+**此方式适合桌面级别的U，一些小主机可能不支持！！！**
 
 **这种直通和上面的直通方法，二选一，不能同时选2种！！！**
 
@@ -460,9 +468,9 @@ ata-ST1000XXXXXXXXXXXXXXX
 
 #### 2.执行命令：
 
-102改成自己要直通硬盘的的虚拟机ID
+ * 102改成自己要直通硬盘的的虚拟机ID
 
-sata1要改，比如我要直通的虚拟机只有一块硬盘sata0，那么这里就可以写成sata1。
+ * sata1要改，比如我要直通的虚拟机只有一块硬盘sata0，那么这里就可以写成sata1。
 
 ```
 qm set 102 -sata1 /dev/disk/by-id/ST1000XXXXXXXXXXXXXXX
