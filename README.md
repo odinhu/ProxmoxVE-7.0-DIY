@@ -95,6 +95,9 @@ apt update && apt dist-upgrade -y
 
 ## Proxmox VE 主界面添加温度
 
+<details>
+<summary>点击展开，查看详细教程！</summary>
+
 #### 1.登录PVE的SSH，执行命令安装sensors：
 ```
 apt-get install lm-sensors
@@ -239,12 +242,16 @@ $res->{thermalstate} = `sensors`;
 
 ![jpg](./pic/6.jpg)
 
+</details>
 
 
 ***
 
 
 ## 核显直通(intel)
+
+<details>
+<summary>点击展开，查看详细教程！</summary>
 
 #### 1.编辑GRUB配置文件：/etc/default/grub
 
@@ -379,6 +386,7 @@ ls /dev/dri
 
 ![jpg](./pic/21.jpg)
 
+</details>
 
 
 ***
@@ -390,6 +398,9 @@ ls /dev/dri
 **此方式适合桌面级别的U，一些小主机可能不支持！！！**
 
 **这种直通和上面的直通方法，二选一，不能同时选2种！！！**
+
+<details>
+<summary>点击展开，查看详细教程！</summary>
 
 #### 1.首先在主板BIOS里面启用GTD，GTX等选项，若要多开几个共享GPU，显存开大点。；
 
@@ -444,6 +455,7 @@ cpu类型设置成HOST，将机器设置成q35，将虚拟机显卡设置成无�
 
 ![jpg](./pic/20.jpg)
 
+</details>
 
 
 ***
@@ -451,6 +463,9 @@ cpu类型设置成HOST，将机器设置成q35，将虚拟机显卡设置成无�
 
 
 ## 直通硬盘(全盘映射)
+
+<details>
+<summary>点击展开，查看详细教程！</summary>
 
 上面说了核显直通，接着说硬盘直通。前面步骤完成了，现在很简单了。
 
@@ -485,12 +500,16 @@ update VM 102: -sata1 /dev/disk/by-id/ata-XXXXXXXXXXXXXXXXXXXXX
 
 ![jpg](./pic/19.jpg)
 
+</details>
 
 
 ***
 
 
 ## PVE 直接安装Docker
+
+<details>
+<summary>点击展开，查看详细教程！</summary>
 
 #### 1.登录PVE的SSH，输入以下命令，安装Docker：
 ```
@@ -537,7 +556,7 @@ ps：例如我的pve的ip是192.168.100.1，那么就是进入http://192.168.100
 
 ![jpg](./pic/17.jpg)
 
-
+</details>
 
 
 
