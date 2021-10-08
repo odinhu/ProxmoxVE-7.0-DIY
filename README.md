@@ -242,7 +242,43 @@ $res->{thermalstate} = `sensors`;
 
 ![jpg](./pic/6.jpg)
 
+
+#### 扩展下，主界面添加CPU频率，显示在温度下面：
+
+* 也是修改 /usr/share/perl5/PVE/API2/Nodes.pm 和 /usr/share/pve-manager/js/pvemanagerlib.js 这2个文件
+
+* /usr/share/perl5/PVE/API2/Nodes.pm 刚刚修改温度的下一行添加：
+
+```
+$res->{cpusensors} = `lscpu | grep MHz`;
+```
+![jpg](./pic/25.jpg)
+
+* /usr/share/pve-manager/js/pvemanagerlib.js 刚刚修改温度的下一行添加：
+
+```
+	{
+          itemId: 'MHz',
+          colspan: 2,
+          printBar: false,
+          title: gettext('CPU频率'),
+          textField: 'cpusensors',
+          renderer:function(value){
+			  const f0 = value.match(/CPU MHz.*?([\d]+)/)[1];
+			  const f1 = value.match(/CPU min MHz.*?([\d]+)/)[1];
+			  const f2 = value.match(/CPU max MHz.*?([\d]+)/)[1];
+			  return `CPU实时: ${f0} MHz | 最小: ${f1} MHz | 最大: ${f2} MHz `
+            }
+	},
+```
+![jpg](./pic/26.jpg)
+
+* 效果就是在主界面显示温度的下一行显示频率：
+
+![jpg](./pic/27.jpg)
+
 </details>
+
 
 
 ***
