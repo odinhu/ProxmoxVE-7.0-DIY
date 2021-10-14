@@ -322,6 +322,9 @@ echo "vfio_virqfd" >> /etc/modules
 ![jpg](./pic/8.jpg)
 
 
+* #### PVE7.x 直接跳过3、4、5，直接到第6步即可；PVE6.x就一步步看。
+
+
 #### 3.添加模块(驱动)黑名单：/etc/modprobe.d/pve-blacklist.conf
 
 ```
