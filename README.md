@@ -553,17 +553,17 @@ ata-ST1000XXXXXXXXXXXXXXX
 
 #### 2.执行命令：
 
- * 102改成自己要直通硬盘的的虚拟机ID
+ * 102：改成自己要直通硬盘的的虚拟机ID。
 
- * sata1要改，比如我要直通的虚拟机只有一块硬盘sata0，那么这里就可以写成sata1。
+ * sata1：已有sata0，所以往后排，为sata1，按需修改。
 
 ```
-qm set 102 -sata1 /dev/disk/by-id/ST1000XXXXXXXXXXXXXXX
+qm set 102 -sata1 /dev/disk/by-id/ata-ST1000XXXXXXXXXXXXXXX
 ```
 
 返回下面信息就说明成功挂载：
 
-update VM 102: -sata1 /dev/disk/by-id/ata-XXXXXXXXXXXXXXXXXXXXX
+update VM 102: -sata1 /dev/disk/by-id/ata-ST1000XXXXXXXXXXXXXXX
 
 
 #### 3.返回PVE查看，已经挂载，重启即可完成。
