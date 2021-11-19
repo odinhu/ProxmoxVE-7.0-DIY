@@ -1,4 +1,4 @@
-## Proxmox VE 7.0 换源
+## Proxmox VE 7.x 换源
 
 #### SSH登录到pve后台，然后一条一条的执行命令
 
@@ -48,46 +48,34 @@ apt update && apt dist-upgrade -y
 ***
 
 
-##  Proxmox VE 7.0 关订阅提示
+##  Proxmox VE 7.x 关订阅提示
 
-#### 1.WinSCP登录到PVE，编辑打开这个文件：/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js
+<details>
+<summary>点击展开，查看详细教程！</summary>
 
-
-#### 2.搜索'active'，找到这一段：
-
-```
-			.data.status.toLowerCase() !== 'active') {
-			Ext.Msg.show({
-			    title: gettext('No valid subscription'),
-			    icon: Ext.Msg.WARNING,
-			    message: Proxmox.Utils.getNoSubKeyHtml(res.data.url),
-			    buttons: Ext.Msg.OK,
-			    callback: function(btn) {
-				if (btn !== 'ok') {
-				    return;
-				}
-				orig_cmd();
-			    },
-			});
-		    } else {
-			orig_cmd();
-		    }
-```
+#### 1.WinSCP登录到PVE，编辑打开这个文件：/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js (防止手贱，建议备份)
 
 
-#### 3.直接删掉其中几行，变成如下：
+#### 2.搜索 data.status.toLowerCase，找到这一段：
 
-```
-			.data.status.toLowerCase() !== 'active') {
-				orig_cmd();
-		    } else {
-			orig_cmd();
-		    }
+![jpg](./pic/01.jpg)
 
-```
+#### 3.直接删掉红框内容，变成如下图，最后保存即可。
 
+![jpg](./pic/02.jpg)
 
-#### 4.最后保存即可。
+#### 4.PVE最新已经到7.1-5，要多改一步：
+
+* 继续搜索 data.status.toLowerCase，找到这一段：
+
+![jpg](./pic/03.jpg)
+
+* 直接删掉红框内容，变成如下图，最后保存即可
+
+![jpg](./pic/04.jpg)
+
+</details>
+
 
 
 ***
