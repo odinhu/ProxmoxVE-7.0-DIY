@@ -1,4 +1,15 @@
-## Proxmox VE 7.x 换源
+## Proxmox VE 7.x 相关教程
+
+* **包括但不限于换源、直通、界面显示温度/频率等。**
+
+
+***
+
+
+### Proxmox VE 7.x 换源
+
+<details>
+<summary>点击展开，查看详细教程！</summary>
 
 #### SSH登录到pve后台，然后一条一条的执行命令
 
@@ -44,11 +55,14 @@ echo "deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription" >
 apt update && apt dist-upgrade -y
 ```
 
+</details>
+
+
 
 ***
 
 
-##  Proxmox VE 7.x 关订阅提示
+###  Proxmox VE 7.x 关订阅提示
 
 <details>
 <summary>点击展开，查看详细教程！</summary>
@@ -64,7 +78,7 @@ apt update && apt dist-upgrade -y
 
 ![jpg](./pic/02.jpg)
 
-#### 4.PVE最新已经到7.1-5，要多改一步：
+#### 4.PVE最新已经更新到7.1-5，要多改一步：
 
 * 继续搜索 data.status.toLowerCase，找到这一段：
 
@@ -81,7 +95,7 @@ apt update && apt dist-upgrade -y
 ***
 
 
-## Proxmox VE 主界面添加温度
+### Proxmox VE 主界面添加温度
 
 <details>
 <summary>点击展开，查看详细教程！</summary>
@@ -284,7 +298,7 @@ gettext('Status') + ': ' + zpool
 ***
 
 
-## 核显直通(intel)
+### 核显直通(intel)
 
 <details>
 <summary>点击展开，查看详细教程！</summary>
@@ -431,7 +445,7 @@ ls /dev/dri
 ***
 
 
-## 黑群晖7.x人脸识别(DS918+)
+### 黑群晖7.x人脸识别(DS918+)
 
 <details>
 <summary>点击展开，查看详细教程！</summary>
@@ -464,7 +478,7 @@ ls /dev/dri
 ***
 
 
-## GVT-G直通(intel)
+### GVT-G直通(intel)
 
 **此方式适合桌面级别的U(差不多5代起步)，一些小主机可能不支持！！！**
 
@@ -532,7 +546,7 @@ cpu类型设置成HOST，将机器设置成q35，将虚拟机显卡设置成无�
 ***
 
 
-## 直通硬盘(全盘映射)
+### 直通硬盘(全盘映射)
 
 <details>
 <summary>点击展开，查看详细教程！</summary>
@@ -576,7 +590,7 @@ update VM 102: -sata1 /dev/disk/by-id/ata-ST1000XXXXXXXXXXXXXXX
 ***
 
 
-## PVE 直接安装Docker
+### PVE 直接安装Docker
 
 <details>
 <summary>点击展开，查看详细教程！</summary>
