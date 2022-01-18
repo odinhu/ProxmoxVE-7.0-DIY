@@ -78,7 +78,7 @@ apt update && apt dist-upgrade -y
 
 ![jpg](./pic/02.jpg)
 
-#### 4.PVE最新已经更新到7.1-5，要多改一步：
+* 如果更新到PVE 7.1-5或者更新，发现改了上面的没效果，那么就要多改一步：
 
 * 继续搜索 data.status.toLowerCase，找到这一段：
 
@@ -88,6 +88,8 @@ apt update && apt dist-upgrade -y
 
 ![jpg](./pic/04.jpg)
 
+#### 4.改完保存，重进PVE界面刷新，去更新点击刷新，就没订阅提示了。
+
 </details>
 
 
@@ -95,7 +97,7 @@ apt update && apt dist-upgrade -y
 ***
 
 
-### Proxmox VE 主界面添加温度
+### Proxmox VE 主界面添加温度/CPU频率
 
 <details>
 <summary>点击展开，查看详细教程！</summary>
@@ -240,12 +242,12 @@ $res->{thermalstate} = `sensors`;
  * 所以自己设备几个核心，按需修改。修改完保存，然后塞回路径。
 
 
-#### 改完重启界面：systemctl restart pveproxy ，重进PVE主页，就看到温度显示了。
+#### 6.改完重启进PVE主页，就看到温度显示了。
 
 ![jpg](./pic/6.jpg)
 
 
-#### 扩展下，主界面添加CPU频率，显示在温度下面：
+* 扩展下，主界面添加CPU频率，显示在温度下面：
 
 * 也是修改 /usr/share/perl5/PVE/API2/Nodes.pm 和 /usr/share/pve-manager/js/pvemanagerlib.js 这2个文件
 
@@ -280,7 +282,7 @@ $res->{cpusensors} = `lscpu | grep MHz`;
 ![jpg](./pic/27.jpg)
 
 
-* 更新到7.1-5后，发现改了温度+频率都不显示，前面的步骤又没错，那么就需要改布局：
+#### 7.如果更新到PVE 7.1-5或者更新，发现改了温度+频率都不显示，前面的步骤又没错，那么就需要改布局：
 
 还是这个文件：pvemanagerlib.js，搜索：
 ```
